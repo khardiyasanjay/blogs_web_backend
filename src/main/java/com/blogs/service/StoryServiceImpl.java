@@ -31,7 +31,7 @@ public class StoryServiceImpl implements StoryService{
 		List<Story> stories = storyRepository.findFirst5ByDateOfCreationLessThanEqualOrderByDateOfCreationDesc(currentDate);
 		List<StoryDTO> storydtos = new ArrayList<>();
 		if(stories.isEmpty())
-			throw new BloggingException("Service.STORIES_UNAVAILABLE");
+			throw new BloggingException("Stories not found in the database");
 		stories.forEach(story -> {
 			StoryDTO tdto = new StoryDTO();
 			tdto.setUserName(story.getUserName());
@@ -49,7 +49,7 @@ public class StoryServiceImpl implements StoryService{
 		Optional<Story> optional = storyRepository.findById(storyDTO.getStoryHeading());
 		
 		if(optional.isPresent())
-			throw new BloggingException("Service.SAME_HEADING_FOUND");
+			throw new BloggingException("Story with same heading found please try with different heading.");
 		
 		Story story = new Story();
 		story.setUserName(storyDTO.getUserName());
@@ -83,7 +83,7 @@ public class StoryServiceImpl implements StoryService{
 	@Override
 	public StoryDTO getStory(String storyHeading) throws BloggingException {
 		Optional<Story> optional = storyRepository.findById(storyHeading);
-		Story story = optional.orElseThrow(() -> new BloggingException("Service.STORY_NOT_FOUND"));
+		Story story = optional.orElseThrow(() -> new BloggingException("Story with this heading not present in database."));
 		
 		StoryDTO storydto = new StoryDTO();
 		storydto.setUserName(story.getUserName());
@@ -114,7 +114,7 @@ public class StoryServiceImpl implements StoryService{
 	public void updateStory(String storyHeading, String storyContent) throws BloggingException {
 		//this method updates storyContent using id storyHeading
 		Optional<Story> optional = storyRepository.findById(storyHeading);
-		Story story = optional.orElseThrow(() -> new BloggingException("Service.STORY_NOT_FOUND"));
+		Story story = optional.orElseThrow(() -> new BloggingException("Story with this heading not present in database."));
 		
 		story.setStoryContent(storyContent);
 	}
@@ -123,7 +123,7 @@ public class StoryServiceImpl implements StoryService{
 	public void deleteStory(String storyHeading) throws BloggingException {
 		//this method deletes a story with table id storyHeading
 		Optional<Story> optional = storyRepository.findById(storyHeading);
-		Story story = optional.orElseThrow(() -> new BloggingException("Service.STORY_NOT_FOUND"));
+		Story story = optional.orElseThrow(() -> new BloggingException("Story with this heading not present in database."));
 		storyRepository.deleteById(storyHeading);
 	}
 }
