@@ -1,0 +1,12 @@
+drop database if exists user_story;
+create database user_story;
+use user_story;
+create table story(
+user_name varchar(50),
+story_heading varchar(700),
+story_image_path mediumtext,
+story_content mediumtext,
+date_of_creation date,
+constraint ps_customer_id_pk primary key(story_heading));
+insert into story (user_name, story_heading, story_image_path, story_content, date_of_creation) values ('sanjay khardiya', 'this is my story heading', null, 'this is my first story to the database without any image', sysdate());
+select * from story;
