@@ -1,4 +1,4 @@
-package com.blogs.api;
+package com.blogs.controller;
 
 import java.time.LocalDate;
 import java.util.List;
